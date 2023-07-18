@@ -1,17 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Navigation from "../../UI/Navigation/Navigation";
+import Navigation from "../../navigation/Navigation/Navigation";
 
-
-import './Header.css';
+import classes from './Header.module.css';
 import logo from '../../../images/logo.svg';
 
 const Header = () => {
+  const isLanding = (window.location.pathname === "/") ? true : false;
+
   return (
-    <div className="header content">
-      <Link className="header__logo" to="/"><img src={logo} alt="Логотип Видеопроводника." /></Link>
+    <header className={`${classes.header} ${isLanding ? classes.landing : ''} content`}>
+      <Link className={classes.logo} to="/">
+        <img src={logo} alt="Логотип Видеопроводника." />
+      </Link>
       <Navigation />
-    </div>
+    </header>
   )
 };
 

@@ -1,9 +1,11 @@
-import React from "react"
+import React from "react";
+import Header from "../../components/page/Header/Header";
 
 const Profile = (props) => {
   return (
-    <div>
-      <h1>Профиль пользователя</h1>
+    <div className="page">
+      <Header />
+      <h1 className="content">Профиль пользователя</h1>
     </div>
   )
 };

@@ -1,9 +1,11 @@
-import React from "react"
+import React from "react";
+import Header from "../../components/page/Header/Header";
 
-const Movies = (props) => {
+const Movies = () => {
   return (
-    <div>
-      <h1>Фильмы</h1>
+    <div className="page">
+      <Header />
+      <h1 className="content">Фильмы</h1>
     </div>
   )
 };

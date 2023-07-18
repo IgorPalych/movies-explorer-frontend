@@ -2,7 +2,7 @@ import React from "react";
 
 import Header from "../../components/page/Header/Header";
 import Promo from "../../components/landing/Promo/Promo";
-import NavTab from "../../components/UI/NavTab/NavTab";
+import NavTab from "../../components/landing/NavTab/NavTab";
 import AboutProject from "../../components/landing/AboutProject/AboutProject";
 import Techs from "../../components/landing/Techs/Techs";
 import Student from "../../components/landing/Student/Student";

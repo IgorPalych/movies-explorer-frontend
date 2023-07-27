@@ -1,11 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 import Logo from "../../components/page/Logo/Logo";
-
 import classes from "./Login.module.css";
+import { EMAIL_REGEX } from "../../utils/utils";
 
 const Login = () => {
+  const {
+    register,
+    formState: { errors, isValid },
+    handleSubmit,
+    reset,
+  } = useForm({
+    mode: "onChange",
+  });
+
+  const onSubmit = (data) => {
+    console.log(JSON.stringify(data));
+    reset();
+  }
+
   return (
     <div className="page">
       <div className={classes.wrapper}>
@@ -13,7 +28,7 @@ const Login = () => {
           <Logo />
           <h1 className={classes.title}>Рады видеть!</h1>
         </div>
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
           <fieldset className={classes.form__fieldset}>
             <div className={classes.form__field}>
               <label
@@ -24,15 +39,19 @@ const Login = () => {
               </label>
               <input
                 className={classes.form__input}
+                {...register("email", {
+                  required: "Поле обязательно к заполнению",
+                  pattern: {
+                    value: EMAIL_REGEX,
+                    message: "Неверный формат электронной почты"
+                  }
+                })}
                 id="email"
                 type="email"
-                placeholder=""
-                required
-                minLength={2}
-                maxLength={100}
-                autoComplete="off"
+                placeholder="user@server.ru"
               />
               <span className={classes.form__error}>
+                {errors?.email && (errors?.email?.message || "Ошибка!")}
               </span>
             </div>
             <div className={classes.form__field}>
@@ -44,15 +63,19 @@ const Login = () => {
               </label>
               <input
                 className={classes.form__input}
+                {...register("password", {
+                  required: "Поле обязательно к заполнению",
+                  minLength: {
+                    value: 6,
+                    message: "Минимум 6 символов"
+                  },
+                })}
                 id="password"
                 type="password"
-                placeholder=""
-                required
-                minLength={2}
-                maxLength={100}
-                autoComplete="off"
+                placeholder="Минимум 6 символов"
               />
               <span className={classes.form__error}>
+                {errors?.password && (errors?.password?.message || "Ошибка!")}
               </span>
             </div>
           </fieldset>

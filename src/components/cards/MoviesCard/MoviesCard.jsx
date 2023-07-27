@@ -13,7 +13,7 @@ const MoviesCard = ({ title, duration, image }) => {
 
   return (
     <div className={classes.card}>
-      <img className={classes.card__image} src={image} alt="" />
+      <img className={classes.card__image} src={image} alt={title} />
       <div className={classes.card__body}>
         <div className={classes.card__info}>
           <h3 className={classes.card__title}>

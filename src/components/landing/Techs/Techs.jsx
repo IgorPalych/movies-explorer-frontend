@@ -4,14 +4,14 @@ import classes from "./Techs.module.css";
 
 const Techs = () => {
   return (
-    <section className={`${classes['section-background']} section content`} id="techs">
+    <section className={`${classes.tech} section content`} id="techs">
       <div className="section__header">
         <h2 className="section__title">Технологии</h2>
       </div>
-      <div className={classes.content}>
-        <div className={classes.content__description}>
-          <h3 className={classes.content__title}>7 технологий</h3>
-          <p className={classes.content__paragraph}>На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.</p>
+      <div className={classes.tech__content}>
+        <div className={classes.tech__description}>
+          <h3 className={classes.tech__title}>7 технологий</h3>
+          <p className={classes.tech__paragraph}>На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.</p>
         </div>
         <ul className={classes.list}>
           <li className={classes.list__item}>HTML</li>

@@ -16,7 +16,7 @@
   padding-bottom: 40px;
 }
 
-.title {
+.header__title {
   margin: 0;
   font-size: 24px;
   font-weight: 500;
@@ -139,7 +139,7 @@
     padding-bottom: 80px;
   }
 
-  .title {
+  .header__title {
     text-align: center;
   }
 

@@ -12,7 +12,7 @@
   max-width: 600px;
 }
 
-.name {
+.description__name {
   margin: 0 0 18px;
   font-size: 50px;
   font-weight: 400;
@@ -20,7 +20,7 @@
   letter-spacing: -0.04em;
 }
 
-.specialty {
+.description__specialty {
   display: block;
   margin-bottom: 26px;
   font-size: 18px;
@@ -28,14 +28,14 @@
   line-height: 20px;
 }
 
-.paragraph {
+.description__paragraph {
   margin: 0 0 16px;
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
 }
 
-.paragraph:last-of-type {
+.description__paragraph:last-of-type {
   margin-bottom: 0;
 }
 
@@ -47,13 +47,13 @@
   border-radius: 10px;
 }
 
-.links {
+.description__links {
   display: flex;
   flex-wrap: wrap;
   margin-top: auto;
 }
 
-.link {
+.description__link {
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;
@@ -61,7 +61,7 @@
   transition: opacity .2s ease;
 }
 
-.link:hover {
+.description__link:hover {
   opacity: 0.7;
 }
 
@@ -70,19 +70,19 @@
     padding-bottom: 90px;
   }
 
-  .name {
+  .description__name {
     margin-bottom: 16px;
     font-size: 40px;
     line-height: 40px;
   }
 
-  .specialty {
+  .description__specialty {
     margin-bottom: 20px;
     font-size: 12px;
     line-height: 18px;
   }
 
-  .paragraph {
+  .description__paragraph {
     margin-bottom: 14px;
     font-size: 12px;
     line-height: 18px;
@@ -114,23 +114,23 @@
     order: 2;
   }
 
-  .paragraph:last-of-type {
+  .description__paragraph:last-of-type {
     margin-bottom: 40px;
   }
 }
 
 @media screen and (max-width: 525px) {
-  .name {
+  .description__name {
     margin-bottom: 20px;
     font-size: 30px;
   }
 
-  .specialty {
+  .description__specialty {
     font-size: 11px;
     line-height: 16px;
   }
 
-  .paragraph {
+  .description__paragraph {
     margin-bottom: 12px;
     font-size: 11px;
     line-height: 16px;

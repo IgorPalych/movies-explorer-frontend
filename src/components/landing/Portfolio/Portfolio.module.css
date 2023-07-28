@@ -1,10 +1,10 @@
-.wrapper {
+.portfolio {
   display: flex;
   flex-direction: column;
   row-gap: 30px;
 }
 
-.title {
+.portfolio__title {
   margin: 0;
   font-size: 18px;
   font-weight: 400;
@@ -26,7 +26,7 @@
   border-bottom: none;
 }
 
-.link {
+.list__link {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -39,11 +39,11 @@
   transition: opacity .2s ease;
 }
 
-.link:hover {
+.list__link:hover {
   opacity: 0.7;
 }
 
-.arrow {
+.list__arrow {
   width: 20px;
   height: 20px;
   background-image: url('../../../images/link-arrow.svg');
@@ -52,25 +52,25 @@
 }
 
 @media screen and (max-width: 768px) {
-  .link {
+  .list__link {
     font-size: 28px;
   }
 
-  .arrow {
+  .list__arrow {
     background-size: 16px;
   }
 }
 
 @media screen and (max-width: 525px) {
-  .title {
+  .portfolio__title {
     font-size: 14px;
   }
 
-  .link {
+  .list__link {
     font-size: 18px;
   }
 
-  .arrow {
+  .list__arrow {
     width: 12px;
     height: 12px;
     background-size: 12px;

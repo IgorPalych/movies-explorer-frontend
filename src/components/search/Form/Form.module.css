@@ -3,8 +3,7 @@
   display: flex;
   flex-direction: column;
   row-gap: 30px;
-  padding-top: 80px;
-  padding-bottom: 51px;
+  padding-bottom: 39px;
   border-bottom: 1px solid #e8e8e8;
 }
 
@@ -45,6 +44,21 @@
   font-size: 12px;
   line-height: 18px;
   color: #fff;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.form__button:hover {
+  opacity: .7;
+}
+
+.form__button:disabled {
+  background-color: #ccc;
+  cursor: default;
+}
+
+.form__button:disabled:hover {
+  opacity: 1;
 }
 
 .form__filter {
@@ -54,9 +68,10 @@
 @media screen and (max-width: 525px) {
   .form {
     row-gap: 45px;
+    padding-bottom: 39px;
   }
 
   .form__input {
-    height: 44px;
+    height: 43px;
   }
 }

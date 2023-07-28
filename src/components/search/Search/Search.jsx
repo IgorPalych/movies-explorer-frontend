@@ -5,7 +5,7 @@ import classes from "./Search.module.css"
 
 const Search = () => {
   return (
-    <section className={`${classes.wrapper} content`}>
+    <section className={`${classes.search} content`}>
       <Form />
     </section>
   )

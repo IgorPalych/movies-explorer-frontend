@@ -11,8 +11,10 @@ const Movies = () => {
   return (
     <div className="page">
       <Header />
-      <Search />
-      <MoviesCardList movies={movies} />
+      <main>
+        <Search />
+        <MoviesCardList movies={movies} />
+      </main>
       <Footer />
     </div >
   )

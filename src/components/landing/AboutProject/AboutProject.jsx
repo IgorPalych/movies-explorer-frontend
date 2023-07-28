@@ -8,13 +8,13 @@ const AboutProject = () => {
         <h2 className="section__title">О проекте</h2>
       </div>
       <div className={classes.description}>
-        <div className={classes.column}>
-          <h3 className={classes.title}>Дипломный проект включал 5 этапов</h3>
-          <p className={classes.subtitle}>Составление плана, работу над бэкендом, вёрстку, добавление функциональности и финальные доработки.</p>
+        <div className={classes.description__column}>
+          <h3 className={classes.description__title}>Дипломный проект включал 5 этапов</h3>
+          <p className={classes.description__subtitle}>Составление плана, работу над бэкендом, вёрстку, добавление функциональности и финальные доработки.</p>
         </div>
-        <div className={classes.column}>
-          <h3 className={classes.title}>На выполнение диплома ушло 5 недель</h3>
-          <p className={classes.subtitle}>У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.</p>
+        <div className={classes.description__column}>
+          <h3 className={classes.description__title}>На выполнение диплома ушло 5 недель</h3>
+          <p className={classes.description__subtitle}>У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.</p>
         </div>
       </div>
       <div className={classes.scale}>

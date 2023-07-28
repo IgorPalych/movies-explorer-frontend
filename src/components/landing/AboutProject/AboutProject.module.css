@@ -5,18 +5,18 @@
   padding-bottom: 110px;
 }
 
-.column {
+.description__column {
   max-width: 550px;
 }
 
-.title {
+.description__title {
   margin: 0 0 26px;
   font-size: 20px;
   font-weight: 400;
   letter-spacing: -0.04em;
 }
 
-.subtitle {
+.description__subtitle {
   margin: 0;
   font-size: 14px;
   font-weight: 400;
@@ -56,17 +56,16 @@
 }
 
 @media screen and (max-width: 768px) {
-  .content {
+  .description {
     column-gap: 30px;
-    padding-top: 70px;
     padding-bottom: 93px;
   }
 
-  .title {
+  .description__title {
     margin-bottom: 22px;
   }
 
-  .subtitle {
+  .description__subtitle {
     font-size: 12px;
     line-height: 18px;
   }
@@ -81,19 +80,21 @@
 }
 
 @media screen and (max-width: 525px) {
-  .content {
+  .description {
+    display: flex;
     flex-direction: column;
+    column-gap: 0;
     row-gap: 56px;
     padding-top: 60px;
     padding-bottom: 60px;
   }
 
-  .title {
+  .description__title {
     margin-bottom: 16px;
     font-size: 18px;
   }
 
-  .subtitle {
+  .description__subtitle {
     font-size: 11px;
     line-height: 16px;
   }

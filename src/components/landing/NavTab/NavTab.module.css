@@ -12,14 +12,14 @@
   list-style-type: none;
 }
 
-.link {
+.list__link {
   font-size: 13px;
   font-weight: 500;
   line-height: 16px;
   color: #000;
 }
 
-.link:hover {
+.list__link:hover {
   text-decoration: none;
 }
 
@@ -28,7 +28,7 @@
     gap: 24px;
   }
 
-  .link {
+  .list__link {
     font-size: 11px;
     line-height: 1.4;
   }

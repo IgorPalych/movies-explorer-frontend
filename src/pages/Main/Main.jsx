@@ -14,13 +14,15 @@ const Main = () => {
   return (
     <div className="page">
       <Header />
-      <Promo />
-      <NavTab />
-      <AboutProject />
-      <Techs />
-      <Student />
+      <main>
+        <Promo />
+        <NavTab />
+        <AboutProject />
+        <Techs />
+        <Student />
+      </main>
       <Footer />
-    </div>
+    </div >
   )
 };
 

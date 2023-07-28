@@ -16,7 +16,7 @@
   padding-bottom: 40px;
 }
 
-.title {
+.header__title {
   margin: 0;
   font-size: 24px;
   font-weight: 500;
@@ -97,6 +97,11 @@
   opacity: .8;
 }
 
+.form__button:disabled {
+  background-color: #ccc;
+  cursor: default;
+}
+
 .footer {
   display: flex;
   justify-content: center;
@@ -130,7 +135,7 @@
     padding-bottom: 80px;
   }
 
-  .title {
+  .header__title {
     text-align: center;
   }
 

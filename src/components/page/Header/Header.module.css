@@ -1,0 +1,10 @@
+.header {
+  display: flex;
+  align-items: center;
+  gap: 44px;
+  height: 74px;
+}
+
+.header_type_landing {
+  background-color: #465dff;
+}

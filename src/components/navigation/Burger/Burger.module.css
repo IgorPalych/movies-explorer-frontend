@@ -1,0 +1,11 @@
+.button {
+  width: 44px;
+  height: 44px;
+  border: 1px;
+  background-color: transparent;
+  background-image: url('../../../images/burger-btn.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 28px;
+  cursor: pointer;
+}

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 
 import Logo from "../../components/page/Logo/Logo";
 import classes from "./Register.module.css";
-import { EMAIL_REGEX } from "../../utils/utils";
+import { EMAIL_REGEX } from "../../utils/constants";
 
 
 const Register = () => {

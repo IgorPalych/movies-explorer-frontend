@@ -18,14 +18,14 @@
   box-sizing: border-box;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .content {
     padding-left: 30px;
     padding-right: 30px;
   }
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 525px) {
   .content {
     padding-left: 18px;
     padding-right: 18px;

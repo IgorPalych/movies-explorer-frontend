@@ -1,9 +1,0 @@
-.search {
-  padding-top: 80px;
-}
-
-@media screen and (max-width: 525px) {
-  .search {
-    padding-top: 81px;
-  }
-}

@@ -9,25 +9,31 @@
 .card__image {
   display: block;
   width: 100%;
+  height: 203px;
+  object-fit: cover;
 }
 
 .card__body {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
   padding: 16px;
 }
 
 .card__info {
+  width: 290px;
   display: flex;
   flex-direction: column;
   row-gap: 17px;
+
 }
 
 .card__title {
   margin: 0;
   font-size: 13px;
   font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .card__duration {
@@ -36,35 +42,30 @@
   color: #a0a0a0;
 }
 
-.card__favorite {
+.card__like {
+  flex-grow: 0;
   width: 30px;
   height: 30px;
   border: none;
   background-color: transparent;
-  background-image: url('../../../images/favorite-not.svg');
+  background-image: url('../../../images/like.svg');
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: top right;
   background-size: 14px 12px;
   cursor: pointer;
 }
 
-.card__favorite_active {
-  background-image: url('../../../images/favorite-yes.svg');
+.card__like_active {
+  background-image: url('../../../images/like_active.svg');
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1023px) {
   .card {
     width: 339px;
   }
 
-  .card__body {
-    padding: 14px;
-  }
-}
-
-@media screen and (max-width: 525px) {
-  .card {
-    width: 284px;
+  .card__image {
+    height: 190px;
   }
 
   .card__body {
@@ -72,6 +73,25 @@
   }
 
   .card__info {
+    width: 265px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .card {
+    width: 284px;
+  }
+
+  .card__image {
+    height: 168px;
+  }
+
+  .card__body {
+    padding: 14px;
+  }
+
+  .card__info {
+    width: 210px;
     row-gap: 14px;
   }
 

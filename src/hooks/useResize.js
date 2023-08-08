@@ -9,7 +9,10 @@ const useResize = () => {
 
     getScreenSize();
 
-    window.addEventListener('resize', getScreenSize);
+    setTimeout(() => {
+      window.addEventListener('resize', getScreenSize);
+    }, 500);
+
     return () => window.removeEventListener('resize', getScreenSize);
   }, []);
 

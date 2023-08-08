@@ -1,31 +1,34 @@
 import React, { useState } from "react";
 
-import classes from "./MoviesCard.module.css";
+import { convertDuration } from "../../../utils/utils";
 
-const MoviesCard = ({ title, duration, image }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+import "./MoviesCard.css"
 
-  const favoriteButtonClass = `${classes.card__favorite} ${isFavorite ? classes.card__favorite_active : ''}`;
+const MoviesCard = ({ movie, handleLikeClick }) => {
+  const [isLiked, setIsLiked] = useState(false);
 
-  const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
+  const likeButtonClass = `card__like ${isLiked ? "card__like_active" : ''}`;
+
+  function onLikeClick() {
+    handleLikeClick(movie, isLiked);
+    setIsLiked(!isLiked);
   }
-
+  console.log();
   return (
-    <div className={classes.card}>
-      <img className={classes.card__image} src={image} alt={title} />
-      <div className={classes.card__body}>
-        <div className={classes.card__info}>
-          <h3 className={classes.card__title}>
-            {title}
+    <div className="card">
+      <img className="card__image" src={movie.image} alt={movie.nameRU} />
+      <div className="card__body">
+        <div className="card__info">
+          <h3 className="card__title">
+            {movie.nameRU}
           </h3>
-          <span className={classes.card__duration}>
-            {duration}
+          <span className="card__duration">
+            {convertDuration(movie.duration)}
           </span>
         </div>
-        <button className={favoriteButtonClass} type="button" onClick={toggleFavorite} />
-      </div>
-    </div>
+        <button className={likeButtonClass} type="button" onClick={onLikeClick} />
+      </div >
+    </div >
   )
 };
 

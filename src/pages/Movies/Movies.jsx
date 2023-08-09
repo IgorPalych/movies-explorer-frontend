@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 
 import { useFilter } from "../../hooks/useFilter";
-import { useFetching } from "../../hooks/useFetching";
-
-import * as MoviesApi from "../../utils/MoviesApi";
-import * as MainApi from "../../utils/MainApi";
+import { useIsSaved } from "../../hooks/useIsSaved";
 
 import Header from "../../components/page/Header/Header";
 import Form from "../../components/filter/Form/Form";
 import FilterCheckbox from "../../components/filter/FilterCheckbox/FilterCheckbox"
 import MoviesCardList from "../../components/cards/MoviesCardList/MoviesCardList";
 import Footer from "../../components/page/Footer/Footer";
+
+import * as MoviesApi from "../../utils/MoviesApi";
+import * as MainApi from "../../utils/MainApi";
 
 import { UI_TEXTS, TOKEN } from "../../utils/constants";
 
@@ -19,51 +19,88 @@ import {
   convertMovieData,
 } from '../../utils/utils';
 
-
 import "./Movies.css";
 
 const Movies = () => {
   const { movies, query, checkBox } = getLocalStorageData();
 
-  const [savedMovies, setSavedMovies] = useState([]);
-  const [beatFilmMovies, setBeatFilmMovies] = useState([]);
-
   const [queryValue, setQueryValue] = useState(query);
   const [checkBoxValue, setCheckBoxValue] = useState(checkBox);
 
+  const [savedMovies, setSavedMovies] = useState([]);
   const filteredMovies = useFilter(movies, queryValue, checkBoxValue);
+  const moviesToRender = useIsSaved(filteredMovies, savedMovies);
 
-  const [fetchSavedMovies, isSavedMoviesLoading, savedMoviesError] = useFetching(async () => {
-    const response = await MainApi.getMovies(TOKEN);
-    setSavedMovies(response.data);
-  })
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRequestError, setIsRequestError] = useState(false);
 
-  const [fetchBeatFilms, isBeatFilmsLoading, beatFilmError] = useFetching(async () => {
-    const response = await MoviesApi.getMovies();
-    setBeatFilmMovies(response);
-  })
-
+  // получаю мои сохраненные фильмы,
+  // записываю их в переменную состояния
   useEffect(() => {
-    fetchSavedMovies();
+    MainApi.getMovies(TOKEN)
+      .then((res) => {
+        setSavedMovies(res.data);
+      })
+      .catch((err) => console.log(err));
   }, []);
 
+  // записываю значение чекбокса в localStorage
   useEffect(() => {
     localStorage.setItem('checkBox', checkBoxValue);
   }, [checkBoxValue]);
 
-  // обрабатываем переключение чекбокса
+  // переключаю чекбокс
   function handleToggleCheckBox() {
     setCheckBoxValue(!checkBoxValue);
   }
 
-  // получаем и обрабатываем фильмы с BEATFILM
+  // обрабатываю клик по лайку
+  function handleLikeClick(movie, isSaved) {
+    isSaved
+      ? onDeleteMovie(TOKEN, movie._id)
+      : onSaveMovie(movie);
+  }
+
+  // удаляю фильм
+  function onDeleteMovie(token, id) {
+    MainApi.deleteMovie(token, id)
+      .then((res) => {
+        const newSavedList = savedMovies.filter((item) =>
+          (item => item._id !== id)
+        );
+        setSavedMovies(newSavedList)
+      })
+      .catch((err) => { console.log('Ошибка', err) })
+  }
+
+  // сохраняю фильм
+  function onSaveMovie(movie) {
+    delete movie.saved;
+    MainApi.saveMovie(TOKEN, movie)
+      .then(res => {
+        setSavedMovies([...savedMovies, res.data]);
+      })
+      .catch((err) => {
+        console.log('Ошибка', err);
+      })
+  }
+
+  // получаю фильмы с BEATFILM и конвертирую в наш формат
+  // сохраняю фильмы и запрос в localStorage
   function onSearchMovies(query) {
-    fetchBeatFilms();
-    const movies = beatFilmMovies.map((item) => convertMovieData(item));
-    localStorage.setItem('movies', JSON.stringify(movies));
-    localStorage.setItem('query', query);
-    setBeatFilmMovies(movies);
-    setQueryValue(query);
+    setIsLoading(true);
+    MoviesApi.getMovies()
+      .then((res) => {
+        const movies = res.map((item) => convertMovieData(item));
+        localStorage.setItem('movies', JSON.stringify(movies));
+        localStorage.setItem('query', query);
+        setQueryValue(query);
+      })
+      .catch((err) => {
+        setIsRequestError(true);
+        console.log(err);
+      })
+      .finally(() => setIsLoading(false));
   }
 
   return (
@@ -84,9 +121,10 @@ const Movies = () => {
           {
             filteredMovies.length > 0
               ? <MoviesCardList
-                movies={filteredMovies}
-                isLoading={isBeatFilmsLoading}
-                isRequestError={beatFilmError}
+                movies={moviesToRender}
+                isLoading={isLoading}
+                isRequestError={isRequestError}
+                handleLikeClick={handleLikeClick}
               />
               : <h1 className="movies__not-found-text">{UI_TEXTS.moviesNotFound}</h1>
           }

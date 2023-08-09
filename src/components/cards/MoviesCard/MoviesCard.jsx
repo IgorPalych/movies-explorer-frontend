@@ -1,19 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { convertDuration } from "../../../utils/utils";
 
 import "./MoviesCard.css"
 
 const MoviesCard = ({ movie, handleLikeClick }) => {
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState('');
 
   const likeButtonClass = `card__like ${isLiked ? "card__like_active" : ''}`;
+
+  useEffect(() => {
+    if (movie.saved) {
+      setIsLiked(true);
+    }
+  }, [movie.saved]);
 
   function onLikeClick() {
     handleLikeClick(movie, isLiked);
     setIsLiked(!isLiked);
   }
-  console.log();
+
   return (
     <div className="card">
       <img className="card__image" src={movie.image} alt={movie.nameRU} />

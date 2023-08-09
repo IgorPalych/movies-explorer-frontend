@@ -71,9 +71,9 @@ export const saveMovie = (token, movie) => {
   );
 }
 
-export const deleteMovie = (movie, token) => {
+export const deleteMovie = (token, id) => {
   return makeRequest(
-    `/movies/${movie.movieId}`,
+    `/movies/${id}`,
     "DELETE",
     null,
     token

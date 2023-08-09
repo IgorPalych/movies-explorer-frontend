@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 
 import "./Form.css";
 
-const Form = ({ onSearchMovies, query }) => {
+const Form = ({ onSearchMovies, queryValue }) => {
 
   const {
     register,
@@ -29,7 +29,7 @@ const Form = ({ onSearchMovies, query }) => {
           })}
           type="text"
           placeholder="Фильм"
-          defaultValue={query || ""}
+          defaultValue={queryValue || ""}
         ></input>
         <button className="form__button" type="submit" disabled={!isValid}>Найти</button>
       </div>

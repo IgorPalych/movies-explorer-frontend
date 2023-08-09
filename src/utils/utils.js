@@ -1,5 +1,6 @@
 import { BEATFILM_BASE_URL } from "./constants";
 
+// конвертирует время в нужный формат
 export function convertDuration(duration) {
   const hours = Math.floor(duration / 60);
   const minutes = duration % 60;
@@ -10,7 +11,7 @@ export function convertDuration(duration) {
   }
 }
 
-//приводим формат данных BEATFILM к нашему формату в MongoDB
+//привожу формат данных BEATFILM к нашему формату в MongoDB
 export function convertMovieData(movie) {
   const convertedMovie = {
     country: movie.country,
@@ -23,14 +24,13 @@ export function convertMovieData(movie) {
     nameRU: movie.nameRU,
     nameEN: movie.nameEN,
     thumbnail: `${BEATFILM_BASE_URL}${movie.image.url}`,
-    movieId: `${movie.id}`,
-    saved: false,
+    movieId: movie.id,
   }
 
   return convertedMovie;
 }
 
-// получаем и возвращаем из localStorage данные по поиску и фильтрации или пустые значения
+// получаю из localStorage фильмы, запрос и чекбокс
 export function getLocalStorageData() {
   const storageData = {
     movies: JSON.parse(localStorage.getItem('movies')) || [],

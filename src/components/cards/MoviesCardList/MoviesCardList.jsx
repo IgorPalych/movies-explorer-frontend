@@ -7,7 +7,7 @@ import RequestError from "../../UI/RequestError/RequestError";
 
 import "./MoviesCardList.css";
 
-const MoviesCardList = ({ movies, isLoading, isRequetsError, handleLikeClick }) => {
+const MoviesCardList = ({ movies, isLoading, isRequetsError, handleCardButtonClick, cardButtonClass }) => {
   const screenWidth = useResize().width;
   const [cardsCount, setCardsCount] = useState(0);
 
@@ -44,7 +44,8 @@ const MoviesCardList = ({ movies, isLoading, isRequetsError, handleLikeClick }) 
                 <li key={movie.movieId} className="cards__item">
                   <MoviesCard
                     movie={movie}
-                    handleLikeClick={handleLikeClick}
+                    handleCardButtonClick={handleCardButtonClick}
+                    cardButtonClass={cardButtonClass}
                   />
                 </li>
               )

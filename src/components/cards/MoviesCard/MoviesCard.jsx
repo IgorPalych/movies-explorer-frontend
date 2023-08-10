@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import { convertDuration } from "../../../utils/utils";
 
 import "./MoviesCard.css"
 
-const MoviesCard = ({ movie, handleLikeClick }) => {
+const MoviesCard = ({ movie, handleCardButtonClick, cardButtonClass }) => {
   const [isLiked, setIsLiked] = useState('');
+  const [likeButtonClass, setLikeButtonClass] = useState('');
+  const { pathname } = useLocation();
 
-  const likeButtonClass = `card__like ${isLiked ? "card__like_active" : ''}`;
+  useEffect(() => {
+    pathname === "/saved-movies"
+      ? setLikeButtonClass('card__button card__button_type_delete')
+      : setLikeButtonClass(`card__button ${isLiked ? "card__button_type_like-active" : 'card__button_type_like'}`);
+  }, [pathname, isLiked]);
 
   useEffect(() => {
     if (movie.saved) {
@@ -15,24 +22,28 @@ const MoviesCard = ({ movie, handleLikeClick }) => {
     }
   }, [movie.saved]);
 
-  function onLikeClick() {
-    handleLikeClick(movie, isLiked);
+  function onButtonClick() {
+    handleCardButtonClick(movie, isLiked);
     setIsLiked(!isLiked);
   }
 
   return (
     <div className="card">
-      <img className="card__image" src={movie.image} alt={movie.nameRU} />
+      <a className="card__link" href={movie.trailer} target="_blank" rel="noreferrer">
+        <img className="card__image" src={movie.image} alt={movie.nameRU} />
+      </a>
       <div className="card__body">
         <div className="card__info">
-          <h3 className="card__title">
-            {movie.nameRU}
-          </h3>
+          <a className="card__link" href={movie.trailer} target="_blank" rel="noreferrer">
+            <h3 className="card__title">
+              {movie.nameRU}
+            </h3>
+          </a>
           <span className="card__duration">
             {convertDuration(movie.duration)}
           </span>
         </div>
-        <button className={likeButtonClass} type="button" onClick={onLikeClick} />
+        <button className={likeButtonClass} type="button" onClick={onButtonClick} />
       </div >
     </div >
   )

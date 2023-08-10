@@ -36,27 +36,46 @@
   overflow: hidden;
 }
 
+.card__link {
+  text-decoration: none;
+  color: #000;
+  transition: opacity .2s ease;
+}
+
+.card__link:hover {
+  opacity: .8;
+}
+
 .card__duration {
   font-size: 11px;
   font-weight: 400;
   color: #a0a0a0;
 }
 
-.card__like {
+.card__button {
   flex-grow: 0;
   width: 30px;
   height: 30px;
   border: none;
   background-color: transparent;
-  background-image: url('../../../images/like.svg');
   background-repeat: no-repeat;
-  background-position: top right;
-  background-size: 14px 12px;
+  background-position: center top;
   cursor: pointer;
 }
 
-.card__like_active {
+.card__button_type_like {
+  background-image: url('../../../images/like.svg');
+  background-size: 14px 12px;
+}
+
+.card__button_type_like-active {
   background-image: url('../../../images/like_active.svg');
+}
+
+.card__button_type_delete {
+  background-image: url('../../../images/delete-movie.svg');
+  background-position: center 4px;
+  background-size: 7px 7px;
 }
 
 @media screen and (max-width: 1023px) {

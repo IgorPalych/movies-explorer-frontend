@@ -66,7 +66,7 @@ const Movies = () => {
     MainApi.deleteMovie(token, id)
       .then((res) => {
         const newSavedList = savedMovies.filter((item) =>
-          (item => item._id !== id)
+          (item._id !== id)
         );
         setSavedMovies(newSavedList)
       })
@@ -119,12 +119,12 @@ const Movies = () => {
         </div>
         <div className="movies__container">
           {
-            filteredMovies.length > 0
+            moviesToRender.length > 0
               ? <MoviesCardList
                 movies={moviesToRender}
                 isLoading={isLoading}
                 isRequestError={isRequestError}
-                handleLikeClick={handleLikeClick}
+                handleCardButtonClick={handleLikeClick}
               />
               : <h1 className="movies__not-found-text">{UI_TEXTS.moviesNotFound}</h1>
           }

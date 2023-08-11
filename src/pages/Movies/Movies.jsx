@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import { useFilter } from "../../hooks/useFilter";
 import { useIsSaved } from "../../hooks/useIsSaved";
+import { AuthContext } from "../../contexts/AuthContext";
 
 import Header from "../../components/page/Header/Header";
 import Form from "../../components/filter/Form/Form";
@@ -12,7 +13,7 @@ import Footer from "../../components/page/Footer/Footer";
 import * as MoviesApi from "../../utils/MoviesApi";
 import * as MainApi from "../../utils/MainApi";
 
-import { UI_TEXTS, TOKEN } from "../../utils/constants";
+import { UI_TEXTS } from "../../utils/constants";
 
 import {
   getLocalStorageData,
@@ -34,15 +35,17 @@ const Movies = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isRequestError, setIsRequestError] = useState(false);
 
+  const { token } = useContext(AuthContext);
+
   // получаю мои сохраненные фильмы,
   // записываю их в переменную состояния
   useEffect(() => {
-    MainApi.getMovies(TOKEN)
+    MainApi.getMovies(token)
       .then((res) => {
         setSavedMovies(res.data);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [token]);
 
   // записываю значение чекбокса в localStorage
   useEffect(() => {
@@ -57,7 +60,7 @@ const Movies = () => {
   // обрабатываю клик по лайку
   function handleLikeClick(movie, isSaved) {
     isSaved
-      ? onDeleteMovie(TOKEN, movie._id)
+      ? onDeleteMovie(token, movie._id)
       : onSaveMovie(movie);
   }
 
@@ -76,7 +79,7 @@ const Movies = () => {
   // сохраняю фильм
   function onSaveMovie(movie) {
     delete movie.saved;
-    MainApi.saveMovie(TOKEN, movie)
+    MainApi.saveMovie(token, movie)
       .then(res => {
         setSavedMovies([...savedMovies, res.data]);
       })

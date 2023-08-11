@@ -1,12 +1,14 @@
-import React from "react";
+import React from 'react';
 import AppRouter from "../router/AppRouter/AppRouter";
+import { AuthContextProvider } from '../../contexts/AuthContext';
 
 import './App.css';
 
 const App = () => {
-
   return (
-    <AppRouter />
+    <AuthContextProvider>
+      <AppRouter />
+    </AuthContextProvider>
   )
 };
 

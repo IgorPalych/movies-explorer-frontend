@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import { useFilter } from "../../hooks/useFilter";
+import { AuthContext } from "../../contexts/AuthContext";
 
 import Header from "../../components/page/Header/Header";
 import Form from "../../components/filter/Form/Form";
@@ -10,7 +11,7 @@ import Footer from "../../components/page/Footer/Footer";
 
 import * as MainApi from "../../utils/MainApi";
 
-import { UI_TEXTS, TOKEN } from "../../utils/constants";
+import { UI_TEXTS } from "../../utils/constants";
 
 import "../Movies/Movies";
 
@@ -22,8 +23,11 @@ function SavedMovies() {
   const [savedMovies, setSavedMovies] = useState([]);
   const moviesToRender = useFilter(savedMovies, queryValue, checkBoxValue);
 
+  const { token } = useContext(AuthContext);
+
+  // загружаю сохраненые фильмы
   useEffect(() => {
-    MainApi.getMovies(TOKEN)
+    MainApi.getMovies(token)
       .then((res) => {
         setSavedMovies(res.data);
       })
@@ -35,8 +39,9 @@ function SavedMovies() {
     setCheckBoxValue(!checkBoxValue);
   }
 
+  // удаляю фильм
   function handleCardButtonClick(movie) {
-    MainApi.deleteMovie(TOKEN, movie._id)
+    MainApi.deleteMovie(token, movie._id)
       .then((res) => {
         const newSavedList = savedMovies.filter((item) =>
           (item._id !== movie._id)
@@ -46,6 +51,7 @@ function SavedMovies() {
       .catch((err) => { console.log('Ошибка', err) })
   }
 
+  // фильтрую фильмы по запросу
   function onSearchMovies(query) {
     setQueryValue(query);
   }

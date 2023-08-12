@@ -1,6 +1,6 @@
 import React from 'react';
 import AppRouter from "../router/AppRouter/AppRouter";
-import { AuthContextProvider } from '../../contexts/AuthContext';
+import { AuthContextProvider } from '../../components/auth/AuthContextProvider';
 
 import './App.css';
 

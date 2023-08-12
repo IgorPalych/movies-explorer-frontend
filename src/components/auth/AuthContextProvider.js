@@ -1,12 +1,13 @@
 import { createContext, useState, useEffect } from "react";
 
-import * as MainApi from "../utils/MainApi";
+import * as MainApi from "../../utils/MainApi";
 
 export const AuthContext = createContext(null);
 
 export const AuthContextProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState('');
+  const [currentUserData, setCurrentUserData] = useState({});
 
   useEffect(() => {
     const jwt = localStorage.getItem("token");
@@ -21,6 +22,7 @@ export const AuthContextProvider = ({ children }) => {
       .checkToken(token)
       .then((res) => {
         setIsLoggedIn(true);
+        setCurrentUserData(res.data);
       })
       .catch((err) => { console.log(err) })
   }, [token]);
@@ -30,7 +32,9 @@ export const AuthContextProvider = ({ children }) => {
       isLoggedIn,
       setIsLoggedIn,
       token,
-      setToken
+      setToken,
+      currentUserData,
+      setCurrentUserData
     }}>
       {children}
     </AuthContext.Provider>

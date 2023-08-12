@@ -1,23 +1,20 @@
-.wrapper {
+.profile {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 410px;
-  min-height: calc(100vh - 74px);
   padding-top: 74px;
   padding-bottom: 70px;
-  box-sizing: border-box;
 }
 
-.title {
+.profile__title {
   margin: 0 0 110px;
   font-size: 24px;
   font-weight: 500;
 }
 
 .form {
-  width: 100%;
+  width: 410px;
   display: flex;
   flex-direction: column;
   margin-bottom: 16px;
@@ -25,13 +22,18 @@
 
 .form__fieldset {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   padding: 16px 0;
   margin: 0;
   border: none;
   border-bottom: 1px solid #e8e8e8;
   font-size: 11px;
   font-weight: 400;
+}
+
+.form__field {
+  display: flex;
+  justify-content: space-between;
 }
 
 .form__fieldset:last-of-type {
@@ -46,6 +48,12 @@
   outline: none;
 }
 
+.form__error {
+  margin: 0 0 0 auto;
+  font-size: 8px;
+  color: #ff0000;
+}
+
 .button {
   padding: 0;
   border: none;
@@ -53,6 +61,15 @@
   font-size: 13px;
   font-weight: 400;
   cursor: pointer;
+}
+
+.button:disabled {
+  cursor: default;
+}
+
+.button:disabled:hover {
+  opacity: 1;
+  cursor: default;
 }
 
 .button:hover {
@@ -69,7 +86,7 @@
 
 
 @media screen and (max-width: 768px) {
-  .title {
+  .profile__title {
     margin-bottom: 0 0 80px;
   }
 
@@ -86,7 +103,7 @@
     padding-bottom: 40px;
   }
 
-  .title {
+  .profile__title {
     margin-bottom: 0 0 64px;
   }
 

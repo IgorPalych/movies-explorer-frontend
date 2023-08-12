@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 
 import { useFilter } from "../../hooks/useFilter";
 import { useIsSaved } from "../../hooks/useIsSaved";
-import { AuthContext } from "../../contexts/AuthContext";
+import { AuthContext } from "../../components/auth/AuthContextProvider";
 
 import Header from "../../components/page/Header/Header";
 import Form from "../../components/filter/Form/Form";
@@ -13,7 +13,7 @@ import Footer from "../../components/page/Footer/Footer";
 import * as MoviesApi from "../../utils/MoviesApi";
 import * as MainApi from "../../utils/MainApi";
 
-import { UI_TEXTS } from "../../utils/constants";
+import { MOVIES_NOT_FOUND_TEXT } from "../../utils/texts";
 
 import {
   getLocalStorageData,
@@ -129,7 +129,7 @@ const Movies = () => {
                 isRequestError={isRequestError}
                 handleCardButtonClick={handleLikeClick}
               />
-              : <h1 className="movies__not-found-text">{UI_TEXTS.moviesNotFound}</h1>
+              : <h1 className="movies__not-found-text">{MOVIES_NOT_FOUND_TEXT}</h1>
           }
         </div>
       </main>

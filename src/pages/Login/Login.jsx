@@ -1,12 +1,31 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-
+import { AuthContext } from "../../components/auth/AuthContextProvider";
+import { singin } from "../../utils/MainApi";
+import { Link } from "react-router-dom";
 import Logo from "../../components/page/Logo/Logo";
-import classes from "./Login.module.css";
 import { EMAIL_REGEX } from "../../utils/constants";
 
+import {
+  SIGNIN_TITLE_TEXT,
+  LABEL_EMAIL_TEXT,
+  REQUIRED_ERROR_TEXT,
+  EMAIL_ERROR_TEXT,
+  DEFAULT_ERROR_TEXT,
+  LABEL_PASSWORD_TEXT,
+  PASSWORD_ERROR_TEXT,
+  EMAIL_PLACEHOLDER_TEXT,
+  PASSWORD_PLACEHOLDER_TEXT,
+  BUTTON_SIGNIN_TEXT,
+  LINK_SIGNUP_TEXT,
+  OFFER_SIGNUP_TEXT
+} from "../../utils/texts";
+
+import classes from "./Login.module.css";
+
 const Login = () => {
+  const { setToken } = useContext(AuthContext);
+
   const {
     register,
     formState: { errors, isValid },
@@ -16,8 +35,15 @@ const Login = () => {
     mode: "onChange",
   });
 
-  const onSubmit = (data) => {
-    console.log(JSON.stringify(data));
+  const onSignin = (data) => {
+    singin(data.email, data.password)
+      .then((res) => {
+        localStorage.setItem('token', res.data);
+        setToken(res.data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      })
     reset();
   }
 
@@ -26,33 +52,33 @@ const Login = () => {
       <div className={classes.wrapper}>
         <header className={classes.header}>
           <Logo />
-          <h1 className={classes.header__title}>Рады видеть!</h1>
+          <h1 className={classes.header__title}>{SIGNIN_TITLE_TEXT}</h1>
         </header>
         <main>
-          <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+          <form className={classes.form} onSubmit={handleSubmit(onSignin)}>
             <fieldset className={classes.form__fieldset}>
               <div className={classes.form__field}>
                 <label
                   htmlFor="email"
                   className={classes.form__label}
                 >
-                  Email
+                  {LABEL_EMAIL_TEXT}
                 </label>
                 <input
                   className={classes.form__input}
                   {...register("email", {
-                    required: "Поле обязательно к заполнению",
+                    required: REQUIRED_ERROR_TEXT,
                     pattern: {
                       value: EMAIL_REGEX,
-                      message: "Неверный формат электронной почты"
+                      message: EMAIL_ERROR_TEXT
                     }
                   })}
                   id="email"
                   type="email"
-                  placeholder="user@server.ru"
+                  placeholder={EMAIL_PLACEHOLDER_TEXT}
                 />
                 <span className={classes.form__error}>
-                  {errors?.email && (errors?.email?.message || "Ошибка!")}
+                  {errors?.email && (errors?.email?.message || DEFAULT_ERROR_TEXT)}
                 </span>
               </div>
               <div className={classes.form__field}>
@@ -60,33 +86,33 @@ const Login = () => {
                   htmlFor="password"
                   className={classes.form__label}
                 >
-                  Пароль
+                  {LABEL_PASSWORD_TEXT}
                 </label>
                 <input
                   className={classes.form__input}
                   {...register("password", {
-                    required: "Поле обязательно к заполнению",
+                    required: REQUIRED_ERROR_TEXT,
                     minLength: {
                       value: 6,
-                      message: "Минимум 6 символов"
+                      message: PASSWORD_ERROR_TEXT
                     },
                   })}
                   id="password"
                   type="password"
-                  placeholder="Минимум 6 символов"
+                  placeholder={PASSWORD_PLACEHOLDER_TEXT}
                 />
                 <span className={classes.form__error}>
-                  {errors?.password && (errors?.password?.message || "Ошибка!")}
+                  {errors?.password && (errors?.password?.message || DEFAULT_ERROR_TEXT)}
                 </span>
               </div>
             </fieldset>
-            <button className={classes.form__button} type="button" disabled={!isValid}>Зарегистрироваться</button>
+            <button className={classes.form__button} type="submit" disabled={!isValid}>{BUTTON_SIGNIN_TEXT}</button>
           </form>
         </main>
         <footer className={classes.footer}>
-          <span>Еще не зарегистрированы?</span>
+          <span>{OFFER_SIGNUP_TEXT}</span>
           <Link to="/signup" className={classes.link}>
-            Регистрация
+            {LINK_SIGNUP_TEXT}
           </Link>
         </footer>
       </div >

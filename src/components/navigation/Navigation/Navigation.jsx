@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import useResize from "../../../hooks/useResize";
-import { AuthContext } from "../../../contexts/AuthContext";
+import { AuthContext } from "../../../components/auth/AuthContextProvider";
 
 import IsLoggedInMenu from "../IsLoggedInMenu/IsLoggedInMenu";
 import NotLoggedInMenu from "../NotLoggedInMenu/NotLoggedInMenu";

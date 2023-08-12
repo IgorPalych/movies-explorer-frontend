@@ -26,16 +26,25 @@ function makeRequest(url, method, body, token) {
     })
 }
 
-export const register = (email, password) => {
+export const checkToken = (token) => {
+  return makeRequest(
+    "/users/me",
+    "GET",
+    null,
+    token
+  );
+}
+
+export const signup = (name, email, password) => {
   return makeRequest(
     "/signup",
     "POST",
-    { email, password },
+    { name, email, password },
     null
   );
 }
 
-export const authorize = (email, password) => {
+export const singin = (email, password) => {
   return makeRequest(
     "/signin",
     "POST",
@@ -44,13 +53,13 @@ export const authorize = (email, password) => {
   );
 }
 
-export const checkToken = (token) => {
+export const editProfile = (name, email, token) => {
   return makeRequest(
     "/users/me",
-    "GET",
-    null,
+    "PATCH",
+    { name, email },
     token
-  );
+  )
 }
 
 export const getMovies = (token) => {

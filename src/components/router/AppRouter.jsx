@@ -1,10 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { privateRoutes, publicRoutes } from '../../../router/Routes';
-import { AuthContext } from "../../../components/auth/AuthContextProvider";
+import { privateRoutes, publicRoutes } from '../../routes/Routes';
 
-const AppRouter = () => {
-  const { isLoggedIn } = useContext(AuthContext);
+const AppRouter = ({ isLoggedIn }) => {
 
   return (
     isLoggedIn

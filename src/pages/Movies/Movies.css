@@ -25,7 +25,6 @@
   font-size: 36px;
 }
 
-
 @media screen and (max-width: 525px) {
   .movies__filter {
     row-gap: 45px;

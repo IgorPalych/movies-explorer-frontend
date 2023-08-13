@@ -1,6 +1,5 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import useResize from "../../../hooks/useResize";
-import { AuthContext } from "../../../components/auth/AuthContextProvider";
 
 import IsLoggedInMenu from "../IsLoggedInMenu/IsLoggedInMenu";
 import NotLoggedInMenu from "../NotLoggedInMenu/NotLoggedInMenu";
@@ -9,19 +8,17 @@ import Burger from "../Burger/Burger";
 
 import "./Navigation.css";
 
-const Navigation = () => {
+const Navigation = ({ isLoggedIn }) => {
   const [modalActive, setModalActive] = useState(false);
   const screenSize = useResize();
-  const { isLoggedIn } = useContext(AuthContext);
-
   return (
     <div className="navigation">
       {
-        (screenSize.width > 768)
-          ? isLoggedIn
+        isLoggedIn
+          ? (screenSize.width > 768)
             ? <IsLoggedInMenu />
-            : <NotLoggedInMenu />
-          : <Burger setActive={setModalActive} />
+            : <Burger setActive={setModalActive} />
+          : <NotLoggedInMenu />
       }
       <ModalMenu active={modalActive} setActive={setModalActive} />
     </div>

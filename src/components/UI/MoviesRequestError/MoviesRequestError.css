@@ -1,4 +1,4 @@
-.request-error {
+.movies-request-error {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8,8 +8,11 @@
   padding: 20px;
 }
 
-.request-error__text {
+.movies-request-error__text {
   max-width: 600px;
-  font-size: 16px;
-  color: red;
+  margin: 0;
+  font-size: 18px;
+  line-height: 24px;
+  text-align: center;
+  color: #ff0000;
 }

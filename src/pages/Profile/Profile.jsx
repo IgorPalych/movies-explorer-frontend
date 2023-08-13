@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { AuthContext } from "../../components/auth/AuthContextProvider";
-import { editProfile } from "../../utils/MainApi";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import Header from "../../components/page/Header/Header";
-import { EMAIL_REGEX } from "../../utils/constants";
+import { REGEXP_EMAIL, REGEXP_NAME } from "../../utils/constants";
 
 import {
   PROFILE_TITLE_TEXT,
   LABEL_NAME_TEXT,
   LABEL_EMAIL_TEXT,
   REQUIRED_ERROR_TEXT,
+  NAME_SYMBOL_ERROR_TEXT,
   NAME_MIN_ERROR_TEXT,
   NAME_MAX_ERROR_TEXT,
   DEFAULT_ERROR_TEXT,
@@ -20,8 +20,8 @@ import {
 
 import classes from "./Profile.module.css";
 
-function Profile() {
-  const { setIsLoggedIn, currentUserData, setCurrentUserData, token } = useContext(AuthContext);
+function Profile({ handleEditProfile, handleLogout, errorMessage, setErrorMessage }) {
+  const { currentUser } = useContext(CurrentUserContext);
 
   const {
     register,
@@ -31,25 +31,21 @@ function Profile() {
     mode: "onChange",
   });
 
-  function onEditProfile(data) {
-    editProfile(data.name, data.email, token)
-      .then((res) => {
-        setCurrentUserData(res.data)
-      })
-      .catch((err) => { console.log(err); });
+  function onSubmit(data) {
+    handleEditProfile(data.name, data.email);
   }
 
   function logout() {
-    setIsLoggedIn(false);
-    localStorage.removeItem('token');
+    handleLogout();
+    setErrorMessage('');
   }
 
   return (
     <div className="page">
       <Header />
       <main className={`${classes.profile} content`}>
-        <h1 className={classes.profile__title}>{PROFILE_TITLE_TEXT} {currentUserData.name}!</h1>
-        <form className={classes.form} onSubmit={handleSubmit(onEditProfile)}>
+        <h1 className={classes.profile__title}>{PROFILE_TITLE_TEXT} {currentUser.name}!</h1>
+        <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
           <fieldset className={classes.form__fieldset}>
             <div className={classes.form__field}>
               <label
@@ -62,6 +58,10 @@ function Profile() {
                 className={classes.form__input}
                 {...register("name", {
                   required: REQUIRED_ERROR_TEXT,
+                  pattern: {
+                    value: REGEXP_NAME,
+                    message: NAME_SYMBOL_ERROR_TEXT
+                  },
                   minLength: {
                     value: 3,
                     message: NAME_MIN_ERROR_TEXT
@@ -74,7 +74,7 @@ function Profile() {
 
                 id="name"
                 type="text"
-                defaultValue={currentUserData.name}
+                defaultValue={currentUser.name}
               />
             </div>
             <span className={classes.form__error}>
@@ -94,13 +94,13 @@ function Profile() {
                 {...register("email", {
                   required: REQUIRED_ERROR_TEXT,
                   pattern: {
-                    value: EMAIL_REGEX,
+                    value: REGEXP_EMAIL,
                     message: EMAIL_ERROR_TEXT
                   }
                 })}
                 id="email"
                 type="email"
-                defaultValue={currentUserData.email}
+                defaultValue={currentUser.email}
               />
             </div>
             <span className={classes.form__error}>

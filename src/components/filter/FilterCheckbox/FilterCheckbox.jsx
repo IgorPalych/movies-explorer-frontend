@@ -2,7 +2,7 @@ import React from "react";
 
 import classes from "./FilterCheckbox.module.css";
 
-const FilterCheckbox = ({ onChange, checkBoxValue, handleToggleCheckBox }) => {
+const FilterCheckbox = ({ onChange, checkBoxValue, toggleCheckBox }) => {
 
   return (
     <label className={classes.filter} htmlFor="short-movies">
@@ -12,7 +12,7 @@ const FilterCheckbox = ({ onChange, checkBoxValue, handleToggleCheckBox }) => {
         name="short-movies"
         value="short-movies"
         defaultChecked={checkBoxValue}
-        onChange={handleToggleCheckBox}
+        onChange={toggleCheckBox}
       />
       <span className={classes.filter__switch} type="button" />
       <span className={classes.filter__text}>

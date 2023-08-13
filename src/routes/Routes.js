@@ -13,9 +13,7 @@ export const privateRoutes = [
   { path: '/movies', element: <Movies />, exact: false },
   { path: '/saved-movies', element: <SavedMovies />, exact: false },
   { path: '/profile', element: <Profile />, exact: false },
-  { path: '/signin', element: <Navigate to="/profile" replace /> },
-  { path: '/signup', element: <Navigate to="/profile" replace /> },
-  { path: '/*', element: <NotFound />, exact: false }
+  { path: '/*', element: <NotFound />, exact: true }
 ];
 
 export const publicRoutes = [

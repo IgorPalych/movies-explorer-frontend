@@ -3,7 +3,9 @@ import useResize from "../../../hooks/useResize";
 import MoviesCard from "../MoviesCard/MoviesCard";
 
 import PreLoader from "../../UI/PreLoader/PreLoader";
-import RequestError from "../../UI/RequestError/RequestError";
+import MoviesRequestError from "../../UI/MoviesRequestError/MoviesRequestError";
+
+import { BUTTON_MORE_TEXT } from "../../../utils/texts";
 
 import "./MoviesCardList.css";
 
@@ -34,7 +36,7 @@ const MoviesCardList = ({ movies, isLoading, isRequetsError, handleCardButtonCli
   return (
     <div className="cards">
       {isLoading && <PreLoader />}
-      {isRequetsError && <RequestError />}
+      {isRequetsError && <MoviesRequestError />}
       {
         !isLoading && !isRequetsError &&
         <>
@@ -58,7 +60,7 @@ const MoviesCardList = ({ movies, isLoading, isRequetsError, handleCardButtonCli
                   className="cards__more-btn"
                   onClick={showMore}
                 >
-                  Ещё
+                  {BUTTON_MORE_TEXT}
                 </button>
               )
             }

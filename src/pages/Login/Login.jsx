@@ -1,10 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { AuthContext } from "../../components/auth/AuthContextProvider";
-import { singin } from "../../utils/MainApi";
 import { Link } from "react-router-dom";
 import Logo from "../../components/page/Logo/Logo";
-import { EMAIL_REGEX } from "../../utils/constants";
+import { REGEXP_EMAIL } from "../../utils/constants";
 
 import {
   SIGNIN_TITLE_TEXT,
@@ -23,8 +21,7 @@ import {
 
 import classes from "./Login.module.css";
 
-const Login = () => {
-  const { setToken } = useContext(AuthContext);
+const Login = ({ handleLogin, errorMessage, setErrorMessage }) => {
 
   const {
     register,
@@ -35,15 +32,9 @@ const Login = () => {
     mode: "onChange",
   });
 
-  const onSignin = (data) => {
-    singin(data.email, data.password)
-      .then((res) => {
-        localStorage.setItem('token', res.data);
-        setToken(res.data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      })
+  const onSubmit = (data) => {
+    handleLogin(data.email, data.password);
+    setErrorMessage('');
     reset();
   }
 
@@ -55,7 +46,7 @@ const Login = () => {
           <h1 className={classes.header__title}>{SIGNIN_TITLE_TEXT}</h1>
         </header>
         <main>
-          <form className={classes.form} onSubmit={handleSubmit(onSignin)}>
+          <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
             <fieldset className={classes.form__fieldset}>
               <div className={classes.form__field}>
                 <label
@@ -69,7 +60,7 @@ const Login = () => {
                   {...register("email", {
                     required: REQUIRED_ERROR_TEXT,
                     pattern: {
-                      value: EMAIL_REGEX,
+                      value: REGEXP_EMAIL,
                       message: EMAIL_ERROR_TEXT
                     }
                   })}
@@ -106,6 +97,7 @@ const Login = () => {
                 </span>
               </div>
             </fieldset>
+            <span className={classes.form__error}>{errorMessage}</span>
             <button className={classes.form__button} type="submit" disabled={!isValid}>{BUTTON_SIGNIN_TEXT}</button>
           </form>
         </main>

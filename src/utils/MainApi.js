@@ -18,15 +18,20 @@ function makeRequest(url, method, body, token) {
   }
 
   return fetch(`${MAIN_API_URL}${url}`, options)
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return response.json().then((result) => {
+          let error = new Error(`Error ${response.status}`);
+          error.response = result.message;
+          throw error;
+        });
       }
-      throw new Error(`Ошибка. Код ошибки: ${res.status}`);
     })
 }
 
-export const checkToken = (token) => {
+export const getUserInfo = (token) => {
   return makeRequest(
     "/users/me",
     "GET",
@@ -35,7 +40,7 @@ export const checkToken = (token) => {
   );
 }
 
-export const signup = (name, email, password) => {
+export const register = (name, email, password) => {
   return makeRequest(
     "/signup",
     "POST",
@@ -44,7 +49,7 @@ export const signup = (name, email, password) => {
   );
 }
 
-export const singin = (email, password) => {
+export const login = (email, password) => {
   return makeRequest(
     "/signin",
     "POST",

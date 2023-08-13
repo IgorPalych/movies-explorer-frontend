@@ -1,10 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { signup } from "../../utils/MainApi";
 import { Link } from "react-router-dom";
 import Logo from "../../components/page/Logo/Logo";
-import { EMAIL_REGEX } from "../../utils/constants";
+import { REGEXP_NAME, REGEXP_EMAIL } from "../../utils/constants";
 
 import {
   SIGNUP_TITLE_TEXT,
@@ -14,6 +12,7 @@ import {
   REQUIRED_ERROR_TEXT,
   NAME_MIN_ERROR_TEXT,
   NAME_MAX_ERROR_TEXT,
+  NAME_SYMBOL_ERROR_TEXT,
   NAME_PLACEHOLDER_TEXT,
   EMAIL_ERROR_TEXT,
   PASSWORD_ERROR_TEXT,
@@ -27,8 +26,7 @@ import {
 import classes from "./Register.module.css";
 
 
-const Register = () => {
-  const navigate = useNavigate();
+const Register = ({ handleRegister, errorMessage, setErrorMessage }) => {
 
   const {
     register,
@@ -39,15 +37,9 @@ const Register = () => {
     mode: "onChange",
   });
 
-  const onSignup = (data) => {
-    signup(data.name, data.email, data.password)
-      .then((res) => {
-        console.log(res.data);
-        navigate('/signin');
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+  const onSubmit = (data) => {
+    handleRegister(data.name, data.email, data.password);
+    setErrorMessage('');
     reset();
   }
 
@@ -59,7 +51,7 @@ const Register = () => {
           <h1 className={classes.header__title}>{SIGNUP_TITLE_TEXT}</h1>
         </header>
         <main>
-          <form className={classes.form} onSubmit={handleSubmit(onSignup)}>
+          <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
             <fieldset className={classes.form__fieldset}>
               <div className={classes.form__field}>
                 <label
@@ -72,6 +64,10 @@ const Register = () => {
                   className={classes.form__input}
                   {...register("name", {
                     required: REQUIRED_ERROR_TEXT,
+                    pattern: {
+                      value: REGEXP_NAME,
+                      message: NAME_SYMBOL_ERROR_TEXT
+                    },
                     minLength: {
                       value: 3,
                       message: NAME_MIN_ERROR_TEXT
@@ -101,13 +97,14 @@ const Register = () => {
                   {...register("email", {
                     required: REQUIRED_ERROR_TEXT,
                     pattern: {
-                      value: EMAIL_REGEX,
+                      value: REGEXP_EMAIL,
                       message: EMAIL_ERROR_TEXT
                     }
                   })}
                   id="email"
                   type="email"
                   placeholder={EMAIL_PLACEHOLDER_TEXT}
+                  onChange={() => setErrorMessage('')}
                 />
                 <span className={classes.form__error}>
                   {errors?.email && (errors?.email?.message || DEFAULT_ERROR_TEXT)}
@@ -138,6 +135,7 @@ const Register = () => {
                 </span>
               </div>
             </fieldset>
+            <span className={classes.form__error}>{errorMessage}</span>
             <button className={classes.form__button} type="submit" disabled={!isValid}>Зарегистрироваться</button>
           </form>
         </main>

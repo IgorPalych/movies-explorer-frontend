@@ -1,5 +1,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import {
+  FILTER_ERROR_TEXT,
+  DEFAULT_ERROR_TEXT,
+  BUTTON_FILTER_TEXT
+} from "../../../utils/texts";
 
 import "./Form.css";
 
@@ -25,16 +30,16 @@ const Form = ({ onSearchMovies, queryValue }) => {
         <input
           className="form__input"
           {...register("name", {
-            required: "Поле обязательно к заполнению",
+            required: FILTER_ERROR_TEXT,
           })}
           type="text"
           placeholder="Фильм"
           defaultValue={queryValue || ""}
         ></input>
-        <button className="form__button" type="submit" disabled={!isValid}>Найти</button>
+        <button className="form__button" type="submit" disabled={!isValid}>{BUTTON_FILTER_TEXT}</button>
       </div>
       <span className="form__error">
-        {errors?.name && (errors?.name?.message || "Ошибка!")}
+        {errors?.name && (errors?.name?.message || DEFAULT_ERROR_TEXT)}
       </span>
     </form>
   )

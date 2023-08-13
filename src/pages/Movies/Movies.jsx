@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 
 import { useFilter } from "../../hooks/useFilter";
 import { useIsSaved } from "../../hooks/useIsSaved";
-import { AuthContext } from "../../components/auth/AuthContextProvider";
 
 import Header from "../../components/page/Header/Header";
 import Form from "../../components/filter/Form/Form";
@@ -11,85 +10,38 @@ import MoviesCardList from "../../components/cards/MoviesCardList/MoviesCardList
 import Footer from "../../components/page/Footer/Footer";
 
 import * as MoviesApi from "../../utils/MoviesApi";
-import * as MainApi from "../../utils/MainApi";
 
 import { MOVIES_NOT_FOUND_TEXT } from "../../utils/texts";
 
-import {
-  getLocalStorageData,
-  convertMovieData,
-} from '../../utils/utils';
+import { getLocalStorageData, convertMovieData, } from '../../utils/utils';
 
 import "./Movies.css";
 
-const Movies = () => {
+const Movies = ({ savedMovies, saveMovie, deleteMovie }) => {
   const { movies, query, checkBox } = getLocalStorageData();
-
   const [queryValue, setQueryValue] = useState(query);
   const [checkBoxValue, setCheckBoxValue] = useState(checkBox);
-
-  const [savedMovies, setSavedMovies] = useState([]);
+  const [isRequestError, setIsRequestError] = useState(false);
   const filteredMovies = useFilter(movies, queryValue, checkBoxValue);
   const moviesToRender = useIsSaved(filteredMovies, savedMovies);
-
   const [isLoading, setIsLoading] = useState(false);
-  const [isRequestError, setIsRequestError] = useState(false);
 
-  const { token } = useContext(AuthContext);
-
-  // получаю мои сохраненные фильмы,
-  // записываю их в переменную состояния
-  useEffect(() => {
-    MainApi.getMovies(token)
-      .then((res) => {
-        setSavedMovies(res.data);
-      })
-      .catch((err) => console.log(err));
-  }, [token]);
-
-  // записываю значение чекбокса в localStorage
   useEffect(() => {
     localStorage.setItem('checkBox', checkBoxValue);
   }, [checkBoxValue]);
 
-  // переключаю чекбокс
   function handleToggleCheckBox() {
     setCheckBoxValue(!checkBoxValue);
   }
 
-  // обрабатываю клик по лайку
   function handleLikeClick(movie, isSaved) {
     isSaved
-      ? onDeleteMovie(token, movie._id)
-      : onSaveMovie(movie);
+      ? deleteMovie(movie._id)
+      : saveMovie(movie);
   }
 
-  // удаляю фильм
-  function onDeleteMovie(token, id) {
-    MainApi.deleteMovie(token, id)
-      .then((res) => {
-        const newSavedList = savedMovies.filter((item) =>
-          (item._id !== id)
-        );
-        setSavedMovies(newSavedList)
-      })
-      .catch((err) => { console.log('Ошибка', err) })
-  }
-
-  // сохраняю фильм
-  function onSaveMovie(movie) {
-    delete movie.saved;
-    MainApi.saveMovie(token, movie)
-      .then(res => {
-        setSavedMovies([...savedMovies, res.data]);
-      })
-      .catch((err) => {
-        console.log('Ошибка', err);
-      })
-  }
-
-  // получаю фильмы с BEATFILM и конвертирую в наш формат
-  // сохраняю фильмы и запрос в localStorage
+  // получаю фильмы с BEATFILM и конвертирую в наш формат,
+  // затем сохраняю фильмы и запрос в localStorage
   function onSearchMovies(query) {
     setIsLoading(true);
     MoviesApi.getMovies()
@@ -117,7 +69,7 @@ const Movies = () => {
           />
           <FilterCheckbox
             checkBoxValue={checkBoxValue}
-            handleToggleCheckBox={handleToggleCheckBox}
+            toggleCheckBox={handleToggleCheckBox}
           />
         </div>
         <div className="movies__container">
@@ -126,10 +78,12 @@ const Movies = () => {
               ? <MoviesCardList
                 movies={moviesToRender}
                 isLoading={isLoading}
-                isRequestError={isRequestError}
                 handleCardButtonClick={handleLikeClick}
+                isRequetsError={isRequestError}
               />
-              : <h1 className="movies__not-found-text">{MOVIES_NOT_FOUND_TEXT}</h1>
+              : queryValue
+                ? <h1 className="movies__not-found-text">{MOVIES_NOT_FOUND_TEXT}</h1>
+                : ''
           }
         </div>
       </main>

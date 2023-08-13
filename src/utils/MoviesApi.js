@@ -10,6 +10,6 @@ export function getMovies() {
     if (res.ok) {
       return res.json();
     }
-    throw new Error(`Ошибка. Код ошибки: ${res.status}`);
+    throw new Error(res.status);
   });
 }

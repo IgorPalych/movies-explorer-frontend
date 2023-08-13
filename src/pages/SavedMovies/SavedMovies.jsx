@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 
 import { useFilter } from "../../hooks/useFilter";
-import { AuthContext } from "../../components/auth/AuthContextProvider";
 
 import Header from "../../components/page/Header/Header";
 import Form from "../../components/filter/Form/Form";
@@ -9,49 +8,25 @@ import FilterCheckbox from "../../components/filter/FilterCheckbox/FilterCheckbo
 import MoviesCardList from "../../components/cards/MoviesCardList/MoviesCardList";
 import Footer from "../../components/page/Footer/Footer";
 
-import * as MainApi from "../../utils/MainApi";
-
 import { MOVIES_NOT_FOUND_TEXT } from "../../utils/texts";
 
 import "../Movies/Movies";
 
-function SavedMovies() {
+function SavedMovies({ savedMovies, deleteMovie }) {
   const deleteButtonClass = 'card__button card__button_type_delete'
   const [queryValue, setQueryValue] = useState('');
   const [checkBoxValue, setCheckBoxValue] = useState(false);
-
-  const [savedMovies, setSavedMovies] = useState([]);
   const moviesToRender = useFilter(savedMovies, queryValue, checkBoxValue);
 
-  const { token } = useContext(AuthContext);
-
-  // загружаю сохраненые фильмы
-  useEffect(() => {
-    MainApi.getMovies(token)
-      .then((res) => {
-        setSavedMovies(res.data);
-      })
-      .catch((err) => console.log(err));
-  }, [token]);
-
-  // переключаю чекбокс
   function handleToggleCheckBox() {
     setCheckBoxValue(!checkBoxValue);
   }
 
-  // удаляю фильм
   function handleCardButtonClick(movie) {
-    MainApi.deleteMovie(token, movie._id)
-      .then((res) => {
-        const newSavedList = savedMovies.filter((item) =>
-          (item._id !== movie._id)
-        );
-        setSavedMovies(newSavedList)
-      })
-      .catch((err) => { console.log('Ошибка', err) })
+    deleteMovie(movie._id);
   }
 
-  // фильтрую фильмы по запросу
+  // фильтрую сохраненные фильмы по запросу
   function onSearchMovies(query) {
     setQueryValue(query);
   }
@@ -67,7 +42,7 @@ function SavedMovies() {
           />
           <FilterCheckbox
             checkBoxValue={checkBoxValue}
-            handleToggleCheckBox={handleToggleCheckBox}
+            toggleCheckBox={handleToggleCheckBox}
           />
         </div>
         <div className="movies__container">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import ProtectedRoute from '../router/ProtectedRoute';
 
 import * as MainApi from '../../utils/MainApi';
 
@@ -16,7 +17,7 @@ import NotFound from '../../pages/NotFound/NotFound';
 import './App.css';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [token, setToken] = useState('');
   const [currentUser, setCurrentUser] = useState({});
   const [savedMovies, setSavedMovies] = useState([]);
@@ -25,21 +26,23 @@ const App = () => {
 
   useEffect(() => {
     const jwt = localStorage.getItem("token");
-    if (!jwt) {
+    setToken(jwt);
+  }, []);
+
+  useEffect(() => {
+    if (!token) {
       return;
     }
-    if (!isLoggedIn) {
-      setIsLoggedIn(true);
-    }
-    setToken(jwt);
-    getUserData(jwt);
-    getSavedMovies(jwt);
-  }, [isLoggedIn]);
+    getUserData(token);
+    getSavedMovies(token);
+
+  }, [token]);
 
   function getUserData(token) {
     MainApi.getUserInfo(token)
       .then((res) => {
         setCurrentUser(res.data);
+        setIsLoggedIn(true);
       })
       .catch((err) => { console.log(err) })
   }
@@ -155,7 +158,9 @@ const App = () => {
         }
         />
         <Route path="/profile" element={
-          <Profile
+          <ProtectedRoute
+            component={Profile}
+            isLoggedIn={isLoggedIn}
             handleEditProfile={handleEditProfile}
             handleLogout={handleLogout}
             errorMessage={errorMessage}
@@ -164,7 +169,9 @@ const App = () => {
         }
         />
         <Route path="/movies" element={
-          <Movies
+          <ProtectedRoute
+            component={Movies}
+            isLoggedIn={isLoggedIn}
             savedMovies={savedMovies}
             saveMovie={handleSaveMovie}
             deleteMovie={handleDeleteMovie}
@@ -172,7 +179,9 @@ const App = () => {
         }
         />
         <Route path="/saved-movies" element={
-          <SavedMovies
+          <ProtectedRoute
+            component={SavedMovies}
+            isLoggedIn={isLoggedIn}
             savedMovies={savedMovies}
             deleteMovie={handleDeleteMovie}
           />

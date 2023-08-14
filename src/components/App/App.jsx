@@ -17,12 +17,16 @@ import NotFound from '../../pages/NotFound/NotFound';
 import './App.css';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState('');
   const [currentUser, setCurrentUser] = useState({});
   const [savedMovies, setSavedMovies] = useState([]);
-  const [errorMessage, setErrorMessage] = useState('');
   const [isEditProfileOk, setIsEditProfileOk] = useState(false);
+
+  const [loginErrorMessage, setLoginErrorMessage] = useState('');
+  const [registerErrorMessage, setRegisterErrorMessage] = useState('');
+  const [profileErrorMessage, setProfileErrorMessage] = useState('');
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -90,7 +94,7 @@ const App = () => {
         }
       })
       .catch((err) => {
-        setErrorMessage(err.response);
+        setRegisterErrorMessage(err.response);
         console.log(err);
       })
   }
@@ -104,7 +108,7 @@ const App = () => {
         navigate('/movies');
       })
       .catch((err) => {
-        setErrorMessage(err.response);
+        setLoginErrorMessage(err.response);
         console.log(err);
       })
   }
@@ -116,7 +120,7 @@ const App = () => {
         setCurrentUser(res.data);
       })
       .catch((err) => {
-        setErrorMessage(err.response);
+        setProfileErrorMessage(err.response);
         console.log(err);
       });
   }
@@ -140,16 +144,16 @@ const App = () => {
         <Route path="/signup" element={
           <Register
             handleRegister={handleRegister}
-            errorMessage={errorMessage}
-            setErrorMessage={setErrorMessage}
+            errorMessage={registerErrorMessage}
+            setErrorMessage={setRegisterErrorMessage}
           />
         }
         />
         <Route path="/signin" element={
           <Login
             handleLogin={handleLogin}
-            errorMessage={errorMessage}
-            setErrorMessage={setErrorMessage}
+            errorMessage={loginErrorMessage}
+            setErrorMessage={setLoginErrorMessage}
           />
         }
         />
@@ -163,8 +167,8 @@ const App = () => {
             isLoggedIn={isLoggedIn}
             handleEditProfile={handleEditProfile}
             handleLogout={handleLogout}
-            errorMessage={errorMessage}
-            setErrorMessage={setErrorMessage}
+            errorMessage={profileErrorMessage}
+            setErrorMessage={setProfileErrorMessage}
             isEditOk={isEditProfileOk}
           />
         }

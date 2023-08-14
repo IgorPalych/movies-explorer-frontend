@@ -18,6 +18,7 @@ import './App.css';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [tokenCheck, setTokenCheck] = useState(false);
   const [token, setToken] = useState('');
   const [currentUser, setCurrentUser] = useState({});
   const [savedMovies, setSavedMovies] = useState([]);
@@ -31,7 +32,14 @@ const App = () => {
 
   useEffect(() => {
     const jwt = localStorage.getItem("token");
-    setToken(jwt);
+    if (jwt) {
+      setIsLoggedIn(true);
+      setTokenCheck(true);
+      setToken(jwt);
+    } else {
+      setIsLoggedIn(false);
+      setTokenCheck(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -133,13 +141,14 @@ const App = () => {
   }
 
   return (
-    <CurrentUserContext.Provider value={{
+    tokenCheck && <CurrentUserContext.Provider value={{
       currentUser,
       isLoggedIn
     }}>
       <Routes>
         <Route path="/" element={
-          <Main />}
+          <Main />
+        }
         />
         <Route path="/signup" element={
           <Register

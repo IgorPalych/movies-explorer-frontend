@@ -10,11 +10,11 @@ import Footer from '../../components/page/Footer/Footer';
 
 import "./Main.css";
 
-const Main = ({ isLoggedIn }) => {
+const Main = () => {
 
   return (
     <div className="page">
-      <Header isLoggedIn={isLoggedIn} />
+      <Header />
       <main>
         <Promo />
         <NavTab />

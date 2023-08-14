@@ -53,7 +53,9 @@ function SavedMovies({ savedMovies, deleteMovie }) {
                 cardButtonClass={deleteButtonClass}
                 handleCardButtonClick={handleCardButtonClick}
               />
-              : <h1 className="movies__not-found-text">{MOVIES_NOT_FOUND_TEXT}</h1>
+              : queryValue
+                ? <h1 className="movies__not-found-text">{MOVIES_NOT_FOUND_TEXT}</h1>
+                : ''
           }
         </div>
       </main>

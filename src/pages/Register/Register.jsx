@@ -19,6 +19,7 @@ import {
   DEFAULT_ERROR_TEXT,
   EMAIL_PLACEHOLDER_TEXT,
   PASSWORD_PLACEHOLDER_TEXT,
+  BUTTON_SIGNUP_TEXT,
   OFFER_SIGNIN_TEXT,
   LINK_SIGNIN_TEXT
 } from "../../utils/texts";
@@ -136,7 +137,7 @@ const Register = ({ handleRegister, errorMessage, setErrorMessage }) => {
               </div>
             </fieldset>
             <span className={classes.form__error}>{errorMessage}</span>
-            <button className={classes.form__button} type="submit" disabled={!isValid}>Зарегистрироваться</button>
+            <button className={classes.form__button} type="submit" disabled={!isValid}>{BUTTON_SIGNUP_TEXT}</button>
           </form>
         </main>
         <footer className={classes.footer}>

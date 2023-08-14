@@ -16,6 +16,8 @@ export const EMAIL_ERROR_TEXT = 'Неверный формат электрон�
 export const DEFAULT_ERROR_TEXT = 'Error';
 export const FILTER_ERROR_TEXT = 'Нужно ввести ключевое слово';
 
+export const PROFILE_EDIT_OK_TEXT = 'Ура, Вы успешно обновили данные!';
+
 export const NAME_PLACEHOLDER_TEXT = 'От 3 до 40 символов';
 export const EMAIL_PLACEHOLDER_TEXT = 'user@server.ru';
 export const PASSWORD_PLACEHOLDER_TEXT = 'Минимум 6 символов';
@@ -28,6 +30,7 @@ export const BUTTON_EDIT_TEXT = 'Редактировать';
 export const BUTTON_LOGOUT_TEXT = 'Выйти из аккаунта';
 export const BUTTON_FILTER_TEXT = 'Найти';
 export const BUTTON_MORE_TEXT = 'Еще';
+export const BUTTON_NOTIFY_POPUP_TEXT = 'ОК';
 
 export const LINK_SIGNUP_TEXT = 'Регистрация';
 export const LINK_SIGNIN_TEXT = 'Войти';

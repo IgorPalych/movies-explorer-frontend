@@ -22,6 +22,7 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [savedMovies, setSavedMovies] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
+  const [isEditProfileOk, setIsEditProfileOk] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -64,7 +65,6 @@ const App = () => {
         setSavedMovies([...savedMovies, res.data]);
       })
       .catch((err) => {
-        setErrorMessage(err.response);
         console.log(err);
       });
   }
@@ -78,7 +78,6 @@ const App = () => {
         setSavedMovies(newSavedList)
       })
       .catch((err) => {
-        setErrorMessage(err.response);
         console.log(err);
       })
   }
@@ -113,6 +112,7 @@ const App = () => {
   function handleEditProfile(name, email) {
     MainApi.editProfile(name, email, token)
       .then((res) => {
+        setIsEditProfileOk(true);
         setCurrentUser(res.data);
       })
       .catch((err) => {
@@ -165,6 +165,7 @@ const App = () => {
             handleLogout={handleLogout}
             errorMessage={errorMessage}
             setErrorMessage={setErrorMessage}
+            isEditOk={isEditProfileOk}
           />
         }
         />

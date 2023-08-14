@@ -14,13 +14,14 @@ import {
   NAME_MAX_ERROR_TEXT,
   DEFAULT_ERROR_TEXT,
   EMAIL_ERROR_TEXT,
+  PROFILE_EDIT_OK_TEXT,
   BUTTON_EDIT_TEXT,
   BUTTON_LOGOUT_TEXT,
 } from "../../utils/texts";
 
 import classes from "./Profile.module.css";
 
-function Profile({ handleEditProfile, handleLogout, errorMessage, setErrorMessage }) {
+function Profile({ handleEditProfile, handleLogout, isEditOk, errorMessage, setErrorMessage }) {
   const { currentUser } = useContext(CurrentUserContext);
 
   const {
@@ -107,6 +108,8 @@ function Profile({ handleEditProfile, handleLogout, errorMessage, setErrorMessag
               {errors?.email && (errors?.email?.message || DEFAULT_ERROR_TEXT)}
             </span>
           </fieldset>
+          <span className={classes.profile__editOk}>{isEditOk ? PROFILE_EDIT_OK_TEXT : ''}</span>
+          <span className={classes.profile__editError}>{errorMessage}</span>
           <button className={`${classes.button} ${classes.form__button}`} type="submit" disabled={!isValid}>{BUTTON_EDIT_TEXT}</button>
         </form>
         <button className={`${classes.button} ${classes.button_type_logout}`} type="button" onClick={logout}>{BUTTON_LOGOUT_TEXT}</button>

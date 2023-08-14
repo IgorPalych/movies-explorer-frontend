@@ -1,9 +1,4 @@
-.wrapper {
-  padding-top: 70px;
-  padding-bottom: 10px;
-}
-
-.list {
+.cards {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -13,14 +8,13 @@
   list-style-type: none;
 }
 
-.more {
+.cards__more {
   display: flex;
   justify-content: center;
   padding-top: 50px;
-  padding-bottom: 80px;
 }
 
-.more__button {
+.cards__more-btn {
   width: 320px;
   height: 36px;
   border: none;
@@ -33,39 +27,22 @@
   transition: opacity .2s ease;
 }
 
-.more__button:hover {
+.cards__more-btn:hover {
   opacity: .7;
 }
 
 @media screen and (max-width: 768px) {
-  .wrapper {
-    padding-bottom: 30px;
-  }
-
-  .list {
+  .cards {
     gap: 30px;
-  }
-
-  .list__item:nth-child(n+9) {
-    display: none;
   }
 }
 
 @media screen and (max-width: 525px) {
-  .wrapper {
-    padding-top: 40px;
-    padding-bottom: 26px;
-  }
-
-  .list {
+  .cards {
     row-gap: 14px;
   }
 
-  .list__item:nth-child(n+5) {
-    display: none;
-  }
-
-  .more__button {
+  .cards__more-btn {
     width: 240px;
   }
 }

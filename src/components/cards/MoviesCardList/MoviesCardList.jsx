@@ -1,45 +1,73 @@
-import React, { useState, useEffect, useMemo } from "react";
-import MoviesCard from "../MoviesCard/MoviesCard";
+import React, { useState, useEffect } from "react";
 import useResize from "../../../hooks/useResize";
+import MoviesCard from "../MoviesCard/MoviesCard";
 
-import classes from "./MoviesCardList.module.css";
+import PreLoader from "../../UI/PreLoader/PreLoader";
+import MoviesRequestError from "../../UI/MoviesRequestError/MoviesRequestError";
 
-const MoviesCardList = ({ movies }) => {
+import { BUTTON_MORE_TEXT } from "../../../utils/texts";
 
-  const screenSize = useResize();
-  const [moviesToAdd, setMoviesToAdd] = useState(0);
+import "./MoviesCardList.css";
+
+const MoviesCardList = ({ movies, isLoading, isRequetsError, handleCardButtonClick, cardButtonClass }) => {
+  const screenWidth = useResize().width;
+  const [cardsCount, setCardsCount] = useState(0);
+
+  const moviesToRender = movies.slice(0, cardsCount);
 
   useEffect(() => {
-    setMoviesToAdd(0);
-  }, []);
+    if (screenWidth >= 1280) {
+      setCardsCount(12)
+    } else if (screenWidth >= 768) {
+      setCardsCount(8)
+    } else {
+      setCardsCount(5)
+    }
+  }, [screenWidth]);
 
-  const moviesToRender = useMemo(() => {
-    const countToRender = screenSize.width < 768 ? 4 : screenSize.width < 1280 ? 8 : 12;
-    return movies.slice(0, countToRender + moviesToAdd);
-  }, [movies, moviesToAdd, screenSize]);
+  function showMore() {
+    if (screenWidth >= 1280) {
+      setCardsCount(cardsCount + 3)
+    } else {
+      setCardsCount(cardsCount + 2)
+    }
+  }
 
   return (
-    <div className={`${classes.wrapper} content`}>
-      <ul className={classes.list}>
-        {
-          moviesToRender.map((movie, index) =>
-            <li key={index} className={classes.list__item}>
-              <MoviesCard
-                title={movie.title}
-                duration={movie.duration}
-                image={movie.image}
-              />
-            </li>)
-        }
-      </ul>
-      <div className={classes.more}>
-        {
-          movies.length > moviesToRender.length && (
-            <button className={classes.more__button} onClick={() => setMoviesToAdd((prev) => prev + (screenSize.width >= 1280 ? 3 : 2))}>Ещё</button>
-          )
-        }
-      </div>
-    </div>
+    <div className="cards">
+      {isLoading && <PreLoader />}
+      {isRequetsError && <MoviesRequestError />}
+      {
+        !isLoading && !isRequetsError &&
+        <>
+          <ul className="cards">
+            {
+              moviesToRender.map((movie) =>
+                <li key={movie.movieId} className="cards__item">
+                  <MoviesCard
+                    movie={movie}
+                    handleCardButtonClick={handleCardButtonClick}
+                    cardButtonClass={cardButtonClass}
+                  />
+                </li>
+              )
+            }
+          </ul>
+          <div className="cards__more">
+            {
+              movies.length > moviesToRender.length && (
+                <button
+                  className="cards__more-btn"
+                  onClick={showMore}
+                >
+                  {BUTTON_MORE_TEXT}
+                </button>
+              )
+            }
+          </div>
+        </>
+      }
+    </div >
   )
 };
 

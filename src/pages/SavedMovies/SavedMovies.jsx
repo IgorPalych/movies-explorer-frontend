@@ -1,19 +1,63 @@
-import React from "react";
+import React, { useState } from "react";
+
+import { useFilter } from "../../hooks/useFilter";
 
 import Header from "../../components/page/Header/Header";
-import Search from "../../components/search/Search/Search";
+import Form from "../../components/filter/Form/Form";
+import FilterCheckbox from "../../components/filter/FilterCheckbox/FilterCheckbox"
 import MoviesCardList from "../../components/cards/MoviesCardList/MoviesCardList";
 import Footer from "../../components/page/Footer/Footer";
 
-import { movies } from "../../utils/movies";
+import { MOVIES_NOT_FOUND_TEXT } from "../../utils/texts";
 
-const SavedMovies = () => {
+import "../Movies/Movies";
+
+function SavedMovies({ savedMovies, deleteMovie }) {
+  const deleteButtonClass = 'card__button card__button_type_delete'
+  const [queryValue, setQueryValue] = useState('');
+  const [checkBoxValue, setCheckBoxValue] = useState(false);
+  const moviesToRender = useFilter(savedMovies, queryValue, checkBoxValue);
+
+  function handleToggleCheckBox() {
+    setCheckBoxValue(!checkBoxValue);
+  }
+
+  function handleCardButtonClick(movie) {
+    deleteMovie(movie._id);
+  }
+
+  // фильтрую сохраненные фильмы по запросу
+  function onSearchMovies(query) {
+    setQueryValue(query);
+  }
+
   return (
     <div className="page">
       <Header />
-      <main>
-        <Search />
-        <MoviesCardList movies={movies} />
+      <main className="movies content">
+        <div className="movies__filter">
+          <Form
+            queryValue={queryValue}
+            onSearchMovies={onSearchMovies}
+          />
+          <FilterCheckbox
+            checkBoxValue={checkBoxValue}
+            toggleCheckBox={handleToggleCheckBox}
+          />
+        </div>
+        <div className="movies__container">
+          {
+            moviesToRender.length > 0
+              ? <MoviesCardList
+                movies={moviesToRender}
+                cardButtonClass={deleteButtonClass}
+                handleCardButtonClick={handleCardButtonClick}
+              />
+              : queryValue
+                ? <h1 className="movies__not-found-text">{MOVIES_NOT_FOUND_TEXT}</h1>
+                : ''
+          }
+        </div>
       </main>
       <Footer />
     </div >

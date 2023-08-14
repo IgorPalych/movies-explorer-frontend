@@ -9,25 +9,41 @@
 .card__image {
   display: block;
   width: 100%;
+  height: 203px;
+  object-fit: cover;
 }
 
 .card__body {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
   padding: 16px;
 }
 
 .card__info {
+  width: 290px;
   display: flex;
   flex-direction: column;
   row-gap: 17px;
+
 }
 
 .card__title {
   margin: 0;
   font-size: 13px;
   font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.card__link {
+  text-decoration: none;
+  color: #000;
+  transition: opacity .2s ease;
+}
+
+.card__link:hover {
+  opacity: .8;
 }
 
 .card__duration {
@@ -36,35 +52,39 @@
   color: #a0a0a0;
 }
 
-.card__favorite {
+.card__button {
+  flex-grow: 0;
   width: 30px;
   height: 30px;
   border: none;
   background-color: transparent;
-  background-image: url('../../../images/favorite-not.svg');
   background-repeat: no-repeat;
-  background-position: center;
-  background-size: 14px 12px;
+  background-position: center top;
   cursor: pointer;
 }
 
-.card__favorite_active {
-  background-image: url('../../../images/favorite-yes.svg');
+.card__button_type_like {
+  background-image: url('../../../images/like.svg');
+  background-size: 14px 12px;
 }
 
-@media screen and (max-width: 768px) {
+.card__button_type_like-active {
+  background-image: url('../../../images/like_active.svg');
+}
+
+.card__button_type_delete {
+  background-image: url('../../../images/delete-movie.svg');
+  background-position: center 4px;
+  background-size: 7px 7px;
+}
+
+@media screen and (max-width: 1023px) {
   .card {
     width: 339px;
   }
 
-  .card__body {
-    padding: 14px;
-  }
-}
-
-@media screen and (max-width: 525px) {
-  .card {
-    width: 284px;
+  .card__image {
+    height: 190px;
   }
 
   .card__body {
@@ -72,6 +92,25 @@
   }
 
   .card__info {
+    width: 265px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .card {
+    width: 284px;
+  }
+
+  .card__image {
+    height: 168px;
+  }
+
+  .card__body {
+    padding: 14px;
+  }
+
+  .card__info {
+    width: 210px;
     row-gap: 14px;
   }
 

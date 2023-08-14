@@ -1,31 +1,51 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
-import classes from "./MoviesCard.module.css";
+import { convertDuration } from "../../../utils/utils";
 
-const MoviesCard = ({ title, duration, image }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+import "./MoviesCard.css"
 
-  const favoriteButtonClass = `${classes.card__favorite} ${isFavorite ? classes.card__favorite_active : ''}`;
+const MoviesCard = ({ movie, handleCardButtonClick, cardButtonClass }) => {
+  const [isLiked, setIsLiked] = useState('');
+  const [likeButtonClass, setLikeButtonClass] = useState('');
+  const { pathname } = useLocation();
 
-  const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
+  useEffect(() => {
+    pathname === "/saved-movies"
+      ? setLikeButtonClass('card__button card__button_type_delete')
+      : setLikeButtonClass(`card__button ${isLiked ? "card__button_type_like-active" : 'card__button_type_like'}`);
+  }, [pathname, isLiked]);
+
+  useEffect(() => {
+    if (movie.saved) {
+      setIsLiked(true);
+    }
+  }, [movie.saved]);
+
+  function onButtonClick() {
+    handleCardButtonClick(movie, isLiked);
+    setIsLiked(!isLiked);
   }
 
   return (
-    <div className={classes.card}>
-      <img className={classes.card__image} src={image} alt={title} />
-      <div className={classes.card__body}>
-        <div className={classes.card__info}>
-          <h3 className={classes.card__title}>
-            {title}
-          </h3>
-          <span className={classes.card__duration}>
-            {duration}
+    <div className="card">
+      <a className="card__link" href={movie.trailer} target="_blank" rel="noreferrer">
+        <img className="card__image" src={movie.image} alt={movie.nameRU} />
+      </a>
+      <div className="card__body">
+        <div className="card__info">
+          <a className="card__link" href={movie.trailer} target="_blank" rel="noreferrer">
+            <h3 className="card__title">
+              {movie.nameRU}
+            </h3>
+          </a>
+          <span className="card__duration">
+            {convertDuration(movie.duration)}
           </span>
         </div>
-        <button className={favoriteButtonClass} type="button" onClick={toggleFavorite} />
-      </div>
-    </div>
+        <button className={likeButtonClass} type="button" onClick={onButtonClick} />
+      </div >
+    </div >
   )
 };
 

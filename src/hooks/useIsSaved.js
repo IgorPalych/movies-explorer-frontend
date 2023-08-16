@@ -1,5 +1,9 @@
 import { useMemo, useRef } from "react";
 
+// Хук работает так:
+// Если фильм сохранен добавляет в его данные свойства "Сохраненный" и "И mongo-дентификатор"
+// Если фильм не сохранен, добавляет свойство "Не сохранен"
+
 export function useIsSaved(filteredList, savedList) {
   const mongoId = useRef(null);
 

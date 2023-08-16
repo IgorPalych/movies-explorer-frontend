@@ -5,7 +5,7 @@ import { convertDuration } from "../../../utils/utils";
 
 import "./MoviesCard.css"
 
-const MoviesCard = ({ movie, handleCardButtonClick, cardButtonClass }) => {
+const MoviesCard = ({ movie, handleCardButtonClick }) => {
   const [isLiked, setIsLiked] = useState('');
   const [likeButtonClass, setLikeButtonClass] = useState('');
   const { pathname } = useLocation();
@@ -13,8 +13,8 @@ const MoviesCard = ({ movie, handleCardButtonClick, cardButtonClass }) => {
   useEffect(() => {
     pathname === "/saved-movies"
       ? setLikeButtonClass('card__button card__button_type_delete')
-      : setLikeButtonClass(`card__button ${isLiked ? "card__button_type_like-active" : 'card__button_type_like'}`);
-  }, [pathname, isLiked]);
+      : setLikeButtonClass(`card__button ${movie.saved ? "card__button_type_like-active" : 'card__button_type_like'}`);
+  }, [pathname, movie]);
 
   useEffect(() => {
     if (movie.saved) {

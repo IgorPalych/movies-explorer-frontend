@@ -9,7 +9,7 @@ import { BUTTON_MORE_TEXT } from "../../../utils/texts";
 
 import "./MoviesCardList.css";
 
-const MoviesCardList = ({ movies, isLoading, isRequetsError, handleCardButtonClick, cardButtonClass }) => {
+const MoviesCardList = ({ movies, isLoading, isRequetsError, handleCardButtonClick }) => {
   const screenWidth = useResize().width;
   const [cardsCount, setCardsCount] = useState(0);
 
@@ -47,7 +47,6 @@ const MoviesCardList = ({ movies, isLoading, isRequetsError, handleCardButtonCli
                   <MoviesCard
                     movie={movie}
                     handleCardButtonClick={handleCardButtonClick}
-                    cardButtonClass={cardButtonClass}
                   />
                 </li>
               )

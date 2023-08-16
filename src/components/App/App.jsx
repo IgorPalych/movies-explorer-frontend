@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import ProtectedRoute from '../router/ProtectedRoute';
 
@@ -12,6 +12,7 @@ import Profile from '../../pages/Profile/Profile';
 import Movies from '../../pages/Movies/Movies';
 import SavedMovies from '../../pages/SavedMovies/SavedMovies';
 import NotFound from '../../pages/NotFound/NotFound';
+import InfoTooltip from '../UI/InfoTooltip/InfoTooltip';
 
 
 import './App.css';
@@ -22,11 +23,12 @@ const App = () => {
   const [token, setToken] = useState('');
   const [currentUser, setCurrentUser] = useState({});
   const [savedMovies, setSavedMovies] = useState([]);
-  const [isEditProfileOk, setIsEditProfileOk] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(true);
 
   const [loginErrorMessage, setLoginErrorMessage] = useState('');
   const [registerErrorMessage, setRegisterErrorMessage] = useState('');
-  const [profileErrorMessage, setProfileErrorMessage] = useState('');
 
   const navigate = useNavigate();
 
@@ -121,15 +123,19 @@ const App = () => {
       })
   }
 
-  function handleEditProfile(name, email) {
+  function handleUpdateProfile({ name, email }) {
+    setIsLoading(true);
     MainApi.editProfile(name, email, token)
       .then((res) => {
-        setIsEditProfileOk(true);
+        setIsUpdate(true);
         setCurrentUser(res.data);
       })
       .catch((err) => {
-        setProfileErrorMessage(err.response);
+        setIsSuccess(false);
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
@@ -140,8 +146,14 @@ const App = () => {
     navigate("/");
   }
 
+  function closeUnsuccessPopup() {
+    setIsSuccess(true);
+    setIsUpdate(false);
+  }
+
   return (
-    tokenCheck && <CurrentUserContext.Provider value={{
+    tokenCheck &&
+    <CurrentUserContext.Provider value={{
       currentUser,
       isLoggedIn
     }}>
@@ -151,19 +163,23 @@ const App = () => {
         }
         />
         <Route path="/signup" element={
-          <Register
-            handleRegister={handleRegister}
-            errorMessage={registerErrorMessage}
-            setErrorMessage={setRegisterErrorMessage}
-          />
+          isLoggedIn
+            ? <Navigate to="/" replace />
+            : <Register
+              handleRegister={handleRegister}
+              errorMessage={registerErrorMessage}
+              setErrorMessage={setRegisterErrorMessage}
+            />
         }
         />
         <Route path="/signin" element={
-          <Login
-            handleLogin={handleLogin}
-            errorMessage={loginErrorMessage}
-            setErrorMessage={setLoginErrorMessage}
-          />
+          isLoggedIn
+            ? <Navigate to="/" replace />
+            : <Login
+              handleLogin={handleLogin}
+              errorMessage={loginErrorMessage}
+              setErrorMessage={setLoginErrorMessage}
+            />
         }
         />
         <Route path="/*" element={
@@ -173,19 +189,15 @@ const App = () => {
         <Route path="/profile" element={
           <ProtectedRoute
             component={Profile}
-            isLoggedIn={isLoggedIn}
-            handleEditProfile={handleEditProfile}
-            handleLogout={handleLogout}
-            errorMessage={profileErrorMessage}
-            setErrorMessage={setProfileErrorMessage}
-            isEditOk={isEditProfileOk}
+            onUpdateProfile={handleUpdateProfile}
+            signOut={handleLogout}
+            isLoading={isLoading}
           />
         }
         />
         <Route path="/movies" element={
           <ProtectedRoute
             component={Movies}
-            isLoggedIn={isLoggedIn}
             savedMovies={savedMovies}
             saveMovie={handleSaveMovie}
             deleteMovie={handleDeleteMovie}
@@ -195,13 +207,14 @@ const App = () => {
         <Route path="/saved-movies" element={
           <ProtectedRoute
             component={SavedMovies}
-            isLoggedIn={isLoggedIn}
             savedMovies={savedMovies}
             deleteMovie={handleDeleteMovie}
           />
         }
         />
       </Routes>
+      <InfoTooltip isSuccess={isSuccess} onClose={closeUnsuccessPopup} />
+      <InfoTooltip isSuccess={!isUpdate} isUpdate={isUpdate} onClose={closeUnsuccessPopup} />
     </CurrentUserContext.Provider >
   )
 };

@@ -16,7 +16,8 @@ export const EMAIL_ERROR_TEXT = 'Неверный формат электрон�
 export const DEFAULT_ERROR_TEXT = 'Error';
 export const FILTER_ERROR_TEXT = 'Нужно ввести ключевое слово';
 
-export const PROFILE_EDIT_OK_TEXT = 'Ура, Вы успешно обновили данные!';
+export const PROFILE_EDIT_OK_TEXT = 'Ура! Вы успешно обновили данные!';
+export const PROFILE_EDIT_ERROR_TEXT = 'Что-то пошло не так. Попробуйте еще раз'
 
 export const NAME_PLACEHOLDER_TEXT = 'От 3 до 40 символов';
 export const EMAIL_PLACEHOLDER_TEXT = 'user@server.ru';

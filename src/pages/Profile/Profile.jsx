@@ -83,6 +83,7 @@ function Profile({ onUpdateProfile, signOut, isLoading }) {
                 name="email"
                 id="email"
                 type="email"
+                pattern="^\S+@\S+\.\S+$"
                 required
                 onChange={handleChange}
                 value={enteredValues.email || ''}
